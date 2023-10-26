@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ... (kode CSS dan meta tags) ... -->
+  <style>
+    /* ... (kode CSS yang sama seperti sebelumnya) ... */
+    #searchInput {
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Data Table from URL</h1>
+  <input type="text" id="urlInput" placeholder="Enter URL">
+  <button id="fetchButton" onclick="fetchData()">Fetch Data</button>
+  <input type="text" id="searchInput" placeholder="Search...">
+  
+  <table id="dataTable">
+    <thead>
+      <tr id="tableHeaders"></tr>
+    </thead>
+    <tbody id="dataBody"></tbody>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // ... (kode JavaScript yang sama seperti sebelumnya) ...
+
+    function searchTable() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toLowerCase();
+      const dataRows = document.querySelectorAll("#dataBody tr");
+
+      dataRows.forEach(row => {
+        const cells = row.getElementsByTagName('td');
+        let rowMatches = false;
+
+        for (let i = 0; i < cells.length; i++) {
+          const cell = cells[i];
+          if (cell) {
+            const cellText = cell.textContent || cell.innerText;
+            if (cellText.toLowerCase().indexOf(filter) > -1) {
+              rowMatches = true;
+              break;
+            }
+          }
+        }
+
+        if (rowMatches) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    // Add an event listener to the search input field
+    document.getElementById('searchInput').addEventListener('input', searchTable);
+  </script>
+</body>
+</html>
